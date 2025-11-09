@@ -1,9 +1,8 @@
-
 import React, { useEffect } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { HabitStatus } from '../types';
 import { Card } from './common';
-import { WaterDropIcon, EducationIcon, WalkingIcon, MeditationIcon, CheckCircleIcon } from './Icons';
+import { WaterDropIcon, BookIcon, WalkingIcon, MeditationIcon, CheckCircleIcon } from './Icons';
 
 interface HabitTrackerProps {
   habits: string[];
@@ -11,7 +10,7 @@ interface HabitTrackerProps {
 
 const habitIcons: { [key: string]: React.ElementType } = {
   'نوشیدن آب': WaterDropIcon,
-  'مطالعه': EducationIcon,
+  'مطالعه': BookIcon,
   'ورزش': WalkingIcon,
   'مدیتیشن': MeditationIcon,
 };

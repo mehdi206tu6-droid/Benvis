@@ -1,10 +1,11 @@
-
 import React, { useState } from 'react';
 import { useAppContext } from '../App';
 import { BottomNav, Card } from './common';
 import { OnboardingData } from '../types';
 import HabitTracker from './HabitTracker';
 import GoalsWidget from './GoalsWidget';
+import FinanceWidget from './FinanceWidget';
+import JournalWidget from './JournalWidget';
 
 const Dashboard: React.FC = () => {
     const { userData } = useAppContext();
@@ -24,15 +25,17 @@ const Dashboard: React.FC = () => {
             <main className="flex-grow p-6 space-y-6 overflow-y-auto pb-28">
                 <GoalsWidget goals={userData.selectedGoals} />
                 <HabitTracker habits={userData.habits} />
+                <FinanceWidget data={userData} />
+                <JournalWidget />
                 
-                {/* Placeholder Widgets */}
+                {/* Placeholder Widgets for future features */}
                 <Card>
-                    <h3 className="font-bold text-lg mb-2">خلاصه مالی</h3>
-                    <p className="text-gray-400">داده‌های مالی به زودی در اینجا نمایش داده می‌شوند.</p>
+                    <h3 className="font-bold text-lg mb-2">سلامت</h3>
+                    <p className="text-gray-400">ویجت سلامت و ردیابی قاعدگی به زودی اضافه خواهد شد.</p>
                 </Card>
                 <Card>
-                    <h3 className="font-bold text-lg mb-2">آب و هوا</h3>
-                    <p className="text-gray-400">ویجت آب و هوا به زودی اضافه خواهد شد.</p>
+                    <h3 className="font-bold text-lg mb-2">خانواده</h3>
+                    <p className="text-gray-400">ویجت خانواده و حساب‌های مشترک به زودی اضافه خواهد شد.</p>
                 </Card>
             </main>
 

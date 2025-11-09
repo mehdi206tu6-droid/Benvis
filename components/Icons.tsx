@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export const WavingHandIcon: React.FC<{ className?: string }> = ({ className }) => (
@@ -23,9 +22,11 @@ export const HealthIcon: React.FC<{ className?: string }> = ({ className }) => (
 export const FinanceIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1h4v1m-4-1h-4v1m0-1H6V5h2v1zM6 5v1H4V5h2z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M3 14h18m-9-4v8"/></svg>
 );
-export const EducationIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const BookIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
 );
+export const JournalIcon: React.FC<{ className?: string }> = BookIcon;
+
 export const HabitsIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h5M4 12h16M4 20h16M15 4h5v5" /></svg>
 );

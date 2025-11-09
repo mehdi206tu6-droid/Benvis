@@ -1,29 +1,33 @@
-
 import React, { useState } from 'react';
 import { OnboardingData } from '../types';
 import { Button, ProgressBar, IconWrapper } from './common';
-import { WavingHandIcon, UserIcon, TargetIcon, HealthIcon, FinanceIcon, EducationIcon, HabitsIcon, WaterDropIcon, WalkingIcon, MeditationIcon, BellIcon, CalendarIcon, CheckCircleIcon } from './Icons';
+import { WavingHandIcon, UserIcon, TargetIcon, HealthIcon, FinanceIcon, BookIcon, HabitsIcon, WaterDropIcon, WalkingIcon, MeditationIcon, BellIcon, CalendarIcon, CheckCircleIcon } from './Icons';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface OnboardingProps {
   onComplete: (data: OnboardingData) => void;
 }
 
-const TOTAL_STEPS = 8;
+const TOTAL_STEPS = 9;
 
 const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<OnboardingData>({
     fullName: '', age: '', role: '',
-    selectedGoals: [], habits: [], budget: '',
+    selectedGoals: [], habits: [],
+    budget: '', income: '', savingsGoal: '',
+    health: { trackPeriod: false },
     notifications: { tasks: true, financial: false, motivation: true },
   });
 
   const nextStep = () => setStep(prev => Math.min(prev + 1, TOTAL_STEPS));
-  const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
   const updateFormData = (field: keyof OnboardingData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  const updateHealthData = (field: keyof OnboardingData['health'], value: any) => {
+    setFormData(prev => ({ ...prev, health: { ...prev.health, [field]: value } }));
   };
 
   const handleComplete = () => {
@@ -36,10 +40,11 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
       case 2: return <IdentityStep nextStep={nextStep} updateFormData={updateFormData} data={formData} />;
       case 3: return <GoalsStep nextStep={nextStep} updateFormData={updateFormData} data={formData} />;
       case 4: return <HabitsStep nextStep={nextStep} updateFormData={updateFormData} data={formData} />;
-      case 5: return <FinanceStep nextStep={nextStep} updateFormData={updateFormData} data={formData} />;
-      case 6: return <NotificationsStep nextStep={nextStep} updateFormData={updateFormData} data={formData} />;
-      case 7: return <CalendarStep nextStep={nextStep} />;
-      case 8: return <CompleteStep handleComplete={handleComplete} data={formData} />;
+      case 5: return <FinanceStepV2 nextStep={nextStep} updateFormData={updateFormData} data={formData} />;
+      case 6: return <HealthStep nextStep={nextStep} updateHealthData={updateHealthData} data={formData} />;
+      case 7: return <NotificationsStep nextStep={nextStep} updateFormData={updateFormData} data={formData} />;
+      case 8: return <CalendarStep nextStep={nextStep} />;
+      case 9: return <CompleteStep handleComplete={handleComplete} data={formData} />;
       default: return null;
     }
   };
@@ -50,7 +55,6 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
         <p className="text-gray-400 text-sm">مرحله {step} از {TOTAL_STEPS}</p>
         <ProgressBar currentStep={step} totalSteps={TOTAL_STEPS} />
       </div>
-       {/* FIX: Removed deprecated `mode="wait"` prop which can cause type errors with newer framer-motion versions. */}
        <AnimatePresence>
         <motion.div
             key={step}
@@ -95,7 +99,7 @@ const IdentityStep: React.FC<{ nextStep: () => void; updateFormData: (f: keyof O
 const goals = [
   { name: 'مالی', icon: FinanceIcon },
   { name: 'سلامتی', icon: HealthIcon },
-  { name: 'آموزش', icon: EducationIcon },
+  { name: 'آموزش', icon: BookIcon },
   { name: 'عادت‌ها', icon: HabitsIcon },
 ];
 
@@ -131,7 +135,7 @@ const GoalsStep: React.FC<{ nextStep: () => void; updateFormData: (f: keyof Onbo
 
 const habits = [
   { name: 'نوشیدن آب', icon: WaterDropIcon },
-  { name: 'مطالعه', icon: EducationIcon },
+  { name: 'مطالعه', icon: BookIcon },
   { name: 'ورزش', icon: WalkingIcon },
   { name: 'مدیتیشن', icon: MeditationIcon },
 ];
@@ -171,18 +175,39 @@ const HabitsStep: React.FC<{ nextStep: () => void; updateFormData: (f: keyof Onb
     );
 };
 
-const FinanceStep: React.FC<{ nextStep: () => void; updateFormData: (f: keyof OnboardingData, v: any) => void; data: OnboardingData }> = ({ nextStep, updateFormData, data }) => (
+const FinanceStepV2: React.FC<{ nextStep: () => void; updateFormData: (f: keyof OnboardingData, v: any) => void; data: OnboardingData }> = ({ nextStep, updateFormData, data }) => (
     <div className="flex flex-col items-center text-center flex-grow">
         <IconWrapper><FinanceIcon className="w-10 h-10" /></IconWrapper>
-        <h2 className="text-2xl font-bold mb-2">مدیریت مالی</h2>
-        <p className="text-gray-400 mb-8">بودجه ماهانه خود را (اختیاری) وارد کنید.</p>
-        <input type="number" placeholder="بودجه ماهانه (تومان)" value={data.budget} onChange={e => updateFormData('budget', e.target.value)} className="w-full bg-[#1F1B2E] border border-gray-700/50 rounded-2xl p-4 mb-8 text-center" />
+        <h2 className="text-2xl font-bold mb-2">تنظیمات مالی FinLife</h2>
+        <p className="text-gray-400 mb-8">وضعیت مالی خود را برای تحلیل هوشمند وارد کنید.</p>
+        <input type="number" placeholder="درآمد ماهانه (تومان)" value={data.income} onChange={e => updateFormData('income', e.target.value)} className="w-full bg-[#1F1B2E] border border-gray-700/50 rounded-2xl p-4 mb-4 text-center" />
+        <input type="number" placeholder="بودجه ماهانه (تومان)" value={data.budget} onChange={e => updateFormData('budget', e.target.value)} className="w-full bg-[#1F1B2E] border border-gray-700/50 rounded-2xl p-4 mb-4 text-center" />
+        <input type="number" placeholder="هدف پس‌انداز ماهانه (تومان)" value={data.savingsGoal} onChange={e => updateFormData('savingsGoal', e.target.value)} className="w-full bg-[#1F1B2E] border border-gray-700/50 rounded-2xl p-4 mb-4 text-center" />
         <div className="w-full mt-auto">
             <Button onClick={nextStep}>ادامه</Button>
         </div>
     </div>
 );
 
+const HealthStep: React.FC<{ nextStep: () => void; updateHealthData: (f: keyof OnboardingData['health'], v: any) => void; data: OnboardingData }> = ({ nextStep, updateHealthData, data }) => {
+    const isEnabled = data.health.trackPeriod;
+    return (
+        <div className="flex flex-col items-center text-center flex-grow">
+            <IconWrapper><HealthIcon className="w-10 h-10" /></IconWrapper>
+            <h2 className="text-2xl font-bold mb-2">سلامت و تندرستی</h2>
+            <p className="text-gray-400 mb-8">ویژگی‌های مرتبط با سلامتی را فعال کنید.</p>
+            <div onClick={() => updateHealthData('trackPeriod', !isEnabled)} className="p-4 rounded-2xl bg-[#1F1B2E] border border-gray-700/50 flex items-center justify-between cursor-pointer w-full">
+                <span>ردیابی قاعدگی (برای بانوان)</span>
+                <div className={`w-12 h-6 rounded-full flex items-center p-1 transition-colors ${isEnabled ? 'bg-[#8B5CF6]' : 'bg-gray-600'}`}>
+                    <div className={`w-4 h-4 bg-white rounded-full transition-transform ${isEnabled ? 'transform translate-x-6' : ''}`}></div>
+                </div>
+            </div>
+            <div className="w-full mt-auto">
+                <Button onClick={nextStep}>ادامه</Button>
+            </div>
+        </div>
+    );
+};
 
 const notificationsSettings = [
     { key: 'tasks', label: 'یادآوری وظایف'},
@@ -244,6 +269,7 @@ const CompleteStep: React.FC<{ handleComplete: () => void; data: OnboardingData 
             <hr className="border-gray-700 my-2" />
             <p>{data.selectedGoals.length} هدف</p>
             <p>{data.habits.length} عادت</p>
+            {data.income && <p>درآمد ماهانه: {parseInt(data.income).toLocaleString('fa-IR')} تومان</p>}
         </div>
         <div className="w-full mt-auto">
             <Button onClick={handleComplete}>شروع می‌کنم</Button>

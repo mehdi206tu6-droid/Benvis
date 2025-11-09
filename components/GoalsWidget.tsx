@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Card } from './common';
-import { FinanceIcon, HealthIcon, EducationIcon, HabitsIcon } from './Icons';
+import { FinanceIcon, HealthIcon, BookIcon, HabitsIcon } from './Icons';
 
 interface GoalsWidgetProps {
   goals: string[];
@@ -10,7 +9,7 @@ interface GoalsWidgetProps {
 const goalIcons: { [key: string]: React.ElementType } = {
   'مالی': FinanceIcon,
   'سلامتی': HealthIcon,
-  'آموزش': EducationIcon,
+  'آموزش': BookIcon,
   'عادت‌ها': HabitsIcon,
 };
 

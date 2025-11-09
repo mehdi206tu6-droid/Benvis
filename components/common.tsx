@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { HomeIcon, TargetIcon, HabitsIcon, CogIcon, PlusIcon } from './Icons';
+import { HomeIcon, TargetIcon, HabitsIcon, CogIcon, PlusIcon, FinanceIcon, JournalIcon } from './Icons';
 
 interface CardProps {
   children: React.ReactNode;
@@ -8,7 +7,7 @@ interface CardProps {
 }
 
 export const Card: React.FC<CardProps> = ({ children, className }) => (
-  <div className={`bg-[#1F1B2E] border border-gray-700/50 rounded-2xl p-4 ${className}`}>
+  <div className={`bg-[#1F1B2E]/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-4 ${className}`}>
     {children}
   </div>
 );
@@ -67,8 +66,8 @@ interface BottomNavProps {
 export const BottomNav: React.FC<BottomNavProps> = ({ activeItem, setActiveItem }) => {
     const navItems = [
         { name: 'داشبورد', icon: HomeIcon },
-        { name: 'اهداف', icon: TargetIcon },
-        { name: 'عادت‌ها', icon: HabitsIcon },
+        { name: 'مالی', icon: FinanceIcon },
+        { name: 'ژورنال', icon: JournalIcon },
         { name: 'تنظیمات', icon: CogIcon },
     ];
 
